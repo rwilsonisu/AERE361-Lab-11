@@ -1,0 +1,35 @@
+\documentclass{article}
+
+% Adds the url command
+\usepackage{hyperref}
+% To remove paragraph indentation
+\usepackage{parskip}
+% Adds line cut to urls
+\usepackage{xurl}
+\usepackage{multirow}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Update these:
+\title{Lab 11 Report}
+\date{Due: 04/28/2026 @ 11:00 AM}
+\author{Ryan Wilson}
+\begin{document}
+\maketitle
+\newpage
+
+\section{Complexity}
+
+Using the Gauss-Jordan elimination method, the solver requires $\mathcal{O}(n^3)$ operations for n unknowns. This means that the overall complexity for this project is $\mathcal{O}(n^3)$. Parsing the input file is $\mathcal{O}(n)$, and constructing the matrix is $\mathcal{O}(n^2)$, so they are negligible when compared to the solver.
+
+\section{Loop Analysis}
+
+The loops with the most runtime happen in the Gauss-Jordan elimination process, which uses three nested loops over the number of unknowns. The matrix construction uses nested loops over nodes and edges, giving a complexity of $\mathcal{O}(n^2)$. One loop invariant is that, during elimination, columns become zero except at the diagonal. Another loop invariant is that, during back substitution, solved variables stay unchanged. Non-dominant loops include the parsing and file output loops.
+
+\section{Sources}
+AERE361\_LabManual\_11.pdf\\
+\url{https://www.geeksforgeeks.org/compiler-design/introduction-of-parsing-ambiguity-and-parsers-set-1/}\\
+\url{https://www.geeksforgeeks.org/linux-unix/bash-scripting-introduction-to-bash-and-bash-scripting/}\\
+
+
+\end{document}

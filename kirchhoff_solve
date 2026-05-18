@@ -1,0 +1,23 @@
+#!/bin/bash
+
+INPUT=$1
+
+#Parse input and build matrix
+./ParseMyCSC.sh "$INPUT"
+
+#Solves system
+./solver matrix.txt solution.txt
+
+> answer.csv
+
+i=1
+while read val
+do
+	EDGE=$(sed -n "${i}p" edges.txt)
+	N1=$(echo $EDGE | cut -d' ' -f1)
+	N2=$(echo $EDGE | cut -d' ' -f2)
+
+	printf "I,%d,%d,%.4f\n" $N1 $N2 $val >> answer.csv
+
+	((i++))
+done < solution.txt

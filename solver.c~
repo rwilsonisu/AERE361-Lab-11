@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(int argc, char *argv[]) {
+  (void)argc;
+
+  if(argv[2] == NULL) {
+    printf("Use like ./solver matrix.txt solution.txt\n");
+    return 1;
+  } //end if
+  
+  FILE *Afile = fopen("matrix.txt","r");
+  FILE *Bfile = fopen("b.txt","r");
+  FILE *out = fopen(argv[2],"w");
+
+  if(!Afile || !Bfile || !out) {
+    printf("Error opening files\n");
+    return 1;
+  } //end if
+
+  int n = 0;
+  int m = 0;
+  char line[1024];
+
+  while(fgets(line, sizeof(line), Afile)) {
+    n++;
+  } //end while
+  
+  rewind(Afile);
+
+  if(fgets(line sizeof(line), Afile)) {
+    //counds the columns
+    char *tmp = strtok(line, " ");
+    while(tmp) {
+      m++;
+      tmp = strtok(NULL, " ");
+    } //end while
+  } //end if
+
+  rewind(Afile);
+
+  double A[n][m];
+  double b[n];
+
+  for(int i = 0; i < n; i++)
+    for(int j = 0; j < m; j++)
+      fscanf(Afile, "%lf", &A[i][j]);
+
+  for(int i = 0; i < n; i++)
+    fscanf(Bfile, "%lf", &b[i]);
+
+  for(int j = 0; j < m; j++) { //Gauss-Jordan method
+    for(int i = 0; i < n; i++) {
+      if(i != j) {
+	double temp = A[i][j]/A[j][j];
+	for(int k = 0; k < m; k++)
+	  A[i][k] -= temp*A[j][k];
+	b[i] -= temp*b[j];
+      } //end if
+    } //end for i
+  } //end for j
+
+  for(int i = 0; i < m; i++) {
+    double x = b[i]/A[i][i];
+    fprintf(out, "%lf\n", x);
+  } //end for
+
+  fclose(Afile);
+  fclose(Bfile);
+  fclose(out);
+
+  return 0;
+} //end main
